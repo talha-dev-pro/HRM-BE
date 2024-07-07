@@ -2,10 +2,11 @@ const { Model, DataTypes } = require("sequelize");
 const sequelize = require("../../bin/dbConnection");
 const { v4: uuid } = require("uuid");
 const { hash } = require("bcrypt");
+const company = require("./company");
 
-class users extends Model {}
+class Users extends Model {}
 
-users.init(
+Users.init(
   {
     userId: {
       primaryKey: true,
@@ -14,14 +15,22 @@ users.init(
     userName: {
       type: DataTypes.STRING(255),
     },
-    email: {
+    userEmail: {
       type: DataTypes.STRING(255),
       allowNull: false,
       unique: true,
     },
-    password: {
+    userPassword: {
       type: DataTypes.STRING(255),
-      allowNull: false,
+      // allowNull: false,
+    },
+    companyId: {
+      type: DataTypes.STRING(255),
+      // allowNull: false,
+      references: {
+        model: company,
+        key: "companyId",
+      },
     },
   },
   {
@@ -32,13 +41,13 @@ users.init(
   }
 );
 
-users.beforeCreate(async (user) => {
+Users.beforeCreate(async (user) => {
   user.userId = uuid();
-  user.password = await hash(user.password, 10);
+  user.userPassword = await hash(user.userPassword, 10);
 });
 
-users.afterCreate((user) => {
-  delete user.dataValues.password;
+Users.afterCreate((user) => {
+  delete user.dataValues.userPassword;
 });
 
-module.exports = users;
+module.exports = Users;

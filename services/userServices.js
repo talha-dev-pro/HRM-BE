@@ -3,8 +3,9 @@ const userModel = require("../models/userModel");
 module.exports = {
   createUser: async (body) => {
     try {
-      const isUser = await userModel.getUser(body);
+      const isUser = await userModel.getUser(body.userEmail);
       if (isUser.response || isUser.error) {
+        console.log(isUser);
         return { error: "User already exists" };
       }
       const user = await userModel.createUser(body);
@@ -20,7 +21,7 @@ module.exports = {
         response: user.response,
       };
     } catch (error) {
-      return error;
+      return { error: error };
     }
   },
   getAllUsers: async () => {
@@ -31,7 +32,7 @@ module.exports = {
       }
       return { response: users.response };
     } catch (error) {
-      return error;
+      return { error: error };
     }
   },
 };

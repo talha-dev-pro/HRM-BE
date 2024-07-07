@@ -1,7 +1,12 @@
 const sequelize = require("../bin/dbConnection");
-const users = require("./definitions/users");
 
-const models = { users };
+const Users = require("./definitions/users");
+const Company = require("./definitions/company");
+
+Company.hasMany(Users, { foreignKey: "companyId" });
+Users.belongsTo(Company, { foreignKey: "companyId" });
+
+const models = { Users, Company };
 
 const db = {};
 db.sequelize = sequelize;

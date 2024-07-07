@@ -2,9 +2,11 @@ const joi = require("joi");
 const userServices = require("../services/userServices");
 
 const createUserSchema = joi.object().keys({
-  email: joi.string().email().required(),
-  password: joi.string().min(6).required(),
-  confirmPassword: joi.ref("password"),
+  userEmail: joi.string().email().required(),
+  userName: joi.string().required(),
+  userPassword: joi.string().min(6).required(),
+  confirmPassword: joi.ref("userPassword"),
+  companyId: joi.string().required(),
 });
 
 module.exports = {
