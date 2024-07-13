@@ -4,23 +4,23 @@ const { v4: uuid } = require("uuid");
 const { hash } = require("bcrypt");
 const company = require("./company");
 
-class Users extends Model {}
+class Employee extends Model {}
 
-Users.init(
+Employee.init(
   {
-    userId: {
+    employeeId: {
       primaryKey: true,
       type: DataTypes.STRING(255),
     },
-    userName: {
+    employeeName: {
       type: DataTypes.STRING(255),
     },
-    userEmail: {
+    employeeEmail: {
       type: DataTypes.STRING(255),
       allowNull: false,
       unique: true,
     },
-    userPassword: {
+    employeePassword: {
       type: DataTypes.STRING(255),
       // allowNull: false,
     },
@@ -35,19 +35,19 @@ Users.init(
   },
   {
     sequelize,
-    tableName: "users",
+    tableName: "employee",
     timestamps: true,
     paranoid: true,
   }
 );
 
-Users.beforeCreate(async (user) => {
-  user.userId = uuid();
-  user.userPassword = await hash(user.userPassword, 10);
+Employee.beforeCreate(async (employee) => {
+  employee.employeeId = uuid();
+  employee.employeePassword = await hash(employee.employeePassword, 10);
 });
 
-Users.afterCreate((user) => {
-  delete user.dataValues.userPassword;
+Employee.afterCreate((employee) => {
+  delete employee.dataValues.employeePassword;
 });
 
-module.exports = Users;
+module.exports = Employee;

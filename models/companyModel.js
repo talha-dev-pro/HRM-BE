@@ -16,7 +16,7 @@ module.exports = {
     try {
       const company = await models.Company.findOne({
         where: { companyEmail: companyEmail },
-        include: { model: models.Users },
+        include: { model: models.Employee },
       });
       return { response: company };
     } catch (error) {
@@ -26,7 +26,7 @@ module.exports = {
   getAllCompanies: async () => {
     try {
       const companies = await models.Company.findAll({
-        include: { model: models.Users },
+        include: { model: models.Employee },
       });
       return { response: companies };
     } catch (error) {

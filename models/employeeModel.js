@@ -1,40 +1,42 @@
 const { models } = require("./index");
 
 module.exports = {
-  createUser: async (body) => {
+  createEmployee: async (body) => {
     try {
-      const user = await models.Users.create({ ...body });
+      const employee = await models.Employee.create({ ...body });
       return {
-        response: user,
+        response: employee,
       };
     } catch (error) {
       return { error: error };
     }
   },
-  getUser: async (userEmail) => {
+  getEmployee: async (employeeEmail) => {
     try {
-      const user = await models.Users.findOne({
-        where: { userEmail: userEmail },
+      const employee = await models.Employee.findOne({
+        where: { employeeEmail: employeeEmail },
         attributes: {
           exclude: ["createdAt", "deletedAt", "updatedAt", "password"],
         },
       });
       return {
-        response: user,
+        response: employee,
       };
     } catch (error) {
       return { error: error };
     }
   },
-  getAllUsers: async () => {
+  getAllEmployee: async () => {
     try {
-      const users = await models.Users.findAll({
+      const employee = await models.Employee.findAll({
         attributes: {
           exclude: ["createdAt", "deletedAt", "updatedAt", "password"],
         },
       });
+      console.log("check");
+      console.log(employee);
       return {
-        response: users,
+        response: employee,
       };
     } catch (error) {
       return { error: error };
